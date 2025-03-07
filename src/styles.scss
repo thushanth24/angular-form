@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #ffffff !important; /* ✅ Set background to white */
+    color: #000000; /* ✅ Set default text color */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  :root {
+    /* Change the checked radio button background to black */
+    --p-radiobutton-checked-background: rgb(59 130 246 / var(--tw-bg-opacity, 1)) !important;
+    
+    /* Change the hover border color to black */
+    --p-radiobutton-checked-hover-background: rgb(59 130 246 / var(--tw-bg-opacity, 1)) !important;
+
+
+
+    
+    /* Success Toast Text Color */
+    --p-toast-success-color: rgb(13, 133, 33) !important;
+
+    /* Success Toast Detail (subtext) Color */
+    --p-toast-success-detail-color: #0a90ef !important;
+      }
+
+     
+    

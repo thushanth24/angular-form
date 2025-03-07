@@ -1,0 +1,357 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-white p-6">
+   
+     <!-- Progress Bar -->
+     <div class="flex items-center justify-center space-x-4">
+      <div *ngFor="let num of [1,2,3,4]; let i = index" class="flex items-center">
+        <!-- Step Circle -->
+        <div class="relative flex items-center justify-center w-8 h-8 rounded-full border-2"
+             [ngClass]="{'bg-blue-500 text-white border-blue-500': step >= i, 'border-gray-300 bg-white text-gray-500': step < i}">
+          <span>{{ num }}</span>
+        </div>
+    
+        <!-- Step Line (not shown after last step) -->
+        <div *ngIf="i < 3" class="w-12 h-1 bg-gray-300"
+             [ngClass]="{'bg-blue-500': step > i}"></div>
+        </div>
+       </div>
+     <br>
+    <div class="flex w-full max-w-3xl bg-gray-50 shadow-md rounded-xl p-8 relative border border-gray-300 justify-center ">
+       
+        
+        
+        <!-- Form Container -->
+        <div class="w-5/6 " >
+  
+            <!-- Biographical Details -->
+            <div *ngIf="step === 0" class="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300">
+                <!-- Section Title -->
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Biographical Details</h4>
+            <br>
+                <!-- Grid Layout -->
+                <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                    
+                    <!-- Full Name (Full Width) -->
+                    <div class="col-span-2">
+                        <p-floatlabel>
+                        <label class="form-label  ">Full Name</label>
+                        <input class="form-input border border-gray-300 w-full" pInputText  [(ngModel)]="formData.fullName" />
+                        </p-floatlabel>
+
+                    </div>
+            
+                                        <!-- NIC / PP Selection -->
+                    <div class="col-span-2 flex items-center space-x-4">
+                        <label class="form-label">Select ID Type:</label>
+                        <div class="flex items-center space-x-2">
+                            <p-radiobutton id="nic" name="idType" [(ngModel)]="formData.selectedIDType" value="NIC" (change)="clearField()" variant="filled" />
+                            <label for="nic">NIC</label>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <p-radiobutton id="pp" name="idType" [(ngModel)]="formData.selectedIDType" value="PP" (change)="clearField()" variant="filled" />
+                            <label for="pp">PP</label>
+                        </div>
+                    </div>
+
+                    <!-- Common Input Field for NIC / PP -->
+                    <div class="col-span-2">
+                        
+                            <input pInputText id="idNumber" class="form-input border border-gray-300 w-full bg-blue-50"
+                                [(ngModel)]="formData.idNumber"
+                                [placeholder]="formData.selectedIDType ? 'Enter ' + formData.selectedIDType : 'Select NIC or PP'"
+                                [disabled]="!formData.selectedIDType" />
+                        
+                    </div>
+
+                    <!-- Nationality & Country -->
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">Nationality</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.nationality" />    
+                        </p-floatlabel>
+                    </div>
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">Country</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.country" />
+    
+                        </p-floatlabel>
+                    </div>
+            
+                    <!-- Date of Birth -->
+                    <div class="col-span-2">
+                        <p-floatlabel>
+                            <label class="form-label"></label>
+                            <input class="form-input border border-gray-300 w-full bg-black" type="date" [(ngModel)]="formData.dob" />
+                        </p-floatlabel>
+                    </div>
+
+                    
+            
+                    <!-- CDC No -->
+                    <div class="col-span-2">
+                        <p-floatlabel>
+                            <label class="form-label">CDC No</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.cdcNo" />
+    
+                        </p-floatlabel>
+                    </div>
+            
+                    <!-- Address -->
+                    <div class="col-span-2">
+                        <p-floatlabel>
+                            <label class="form-label">Address</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.address" />
+    
+                        </p-floatlabel>
+                    </div>
+            
+                    <!-- Emergency Contact -->
+                    <div class="col-span-2">
+                        <label class="form-label font-semibold">Details of the person to be notified in an emergency*</label>
+                    </div>
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">Name</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.emergencyContactName" />
+    
+                        </p-floatlabel>
+                    </div>
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">Contact No</label>
+                            <input class="form-input border border-gray-300 w-full" pInputText [(ngModel)]="formData.emergencyContactNumber" />
+    
+                        </p-floatlabel>
+                    </div>
+            
+                    <!-- Email Address -->
+                    <div class="col-span-2">
+                        <p-floatlabel>
+                            <input class="form-input border w-full p-2 rounded-md bg-white"
+                                   type="email"
+                                   pInputText
+                                   [(ngModel)]="formData.email"
+                                   (input)="validateField('email')"
+                                   [ngClass]="{'border-red-500': validationErrors.email, 'border-green-500': !validationErrors.email}" />
+                            <label>Email Address</label>
+                        </p-floatlabel>
+                        <small *ngIf="validationErrors.email" class="text-red-500">{{ validationErrors.email }}</small>
+                    </div>
+                </div>
+            
+            </div>
+            
+  
+                    <!-- Academic Details -->
+            <div *ngIf="step === 1" class="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300">
+                <!-- Section Title -->
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Academic Details</h4>
+
+                <!-- Select Courses -->
+                <div class="mb-4">
+                    <label class="form-label font-semibold text-lg">Select Courses</label>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-3 mt-2">
+                        <div *ngFor="let course of ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5']">
+                            <label class="form-label">{{ course }}</label>
+                            <div class="relative">
+                                <input class="form-input border border-gray-300 w-full p-2 rounded-md pr-10" pInputText placeholder="Search...." />
+                                <i class="pi pi-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proficiency in Driving Heavy Vehicle -->
+                <div class="mb-4">
+                    <label class="form-label text-lg">
+                        Proficiency in Driving Heavy Vehicle 
+                        <span class="italic font-semibold">(for Equipment Operator Training Program Only)</span>
+                    </label>
+                </div>
+                <br>
+                <!-- D/L No & Class -->
+                <div class="grid grid-cols-2 gap-x-6">
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">D/L No</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" pInputText [(ngModel)]="formData.drivingLicense" />    
+                        </p-floatlabel>
+                    </div>
+                    <div>
+                        <p-floatlabel>
+                            <label class="form-label">Class</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" pInputText [(ngModel)]="formData.drivingClass" />    
+
+                        </p-floatlabel>
+                    </div>
+                </div>
+
+                <!-- Date of Issue -->
+                <div class="mt-4">
+                    <label class="form-label">Date of Issue</label>
+                    <div class="relative">
+                        <input class="form-input border border-gray-300 w-full p-2 rounded-md" type="date" [(ngModel)]="formData.issueDate" />
+                    </div>
+                </div>
+
+                
+            </div>
+
+  
+                        <!-- Employment Details -->
+            <div *ngIf="step === 2" class="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 ">
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Employment Details</h4>
+                <br>
+            <div class="col-span-2">
+                <p-floatlabel>
+                    <label class="form-label">Department/Rank</label>
+                    <input class="form-input border border-gray-300" pInputText [(ngModel)]="formData.department" />
+                </p-floatlabel>
+            </div>
+                <br>
+            <div class="col-span-2">
+                <p-floatlabel>
+                    <label class="form-label">Sea Services (Years/Months)</label>
+                    <input class="form-input border border-gray-300" pInputText [(ngModel)]="formData.seaService" />
+                     </p-floatlabel>
+            </div>
+                <br>
+            <div class="col-span-2">
+                <p-floatlabel>
+                    <label class="form-label">Company (if Employed)</label>
+                    <input class="form-input border border-gray-300" pInputText [(ngModel)]="formData.company" />
+                </p-floatlabel>
+            </div>
+                
+                 
+
+                
+
+
+                            <!-- Are You Employed? -->
+                <div class="mb-4">
+                    <label class="form-label font-medium">Are you employed?</label>
+                    <div class="flex space-x-4 mt-2">
+                        <div class="flex items-center space-x-2">
+                            <p-radiobutton name="employmentStatus" value="yes" [(ngModel)]="formData.employed"></p-radiobutton>
+                            <label>Yes</label>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <p-radiobutton name="employmentStatus" value="no" [(ngModel)]="formData.employed"></p-radiobutton>
+                            <label>No</label>
+                        </div>
+                    </div>
+                </div>
+
+                                        <!-- Employment Fields (Initially Disabled and Shaded) -->
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-4 pt-5 rounded-md transition-all duration-300"
+                            [class.bg-gray-200]="formData.employed !== 'yes'"
+                            [class.opacity-50]="formData.employed !== 'yes'">
+                        
+                        <div>
+                            <p-floatlabel>
+                                <label class="form-label">Designation</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" 
+                                    pInputText [(ngModel)]="formData.designation" 
+                                    [disabled]="formData.employed !== 'yes'" />
+                            </p-floatlabel>
+                            
+                        </div>
+
+                        <div>
+                            <p-floatlabel>
+                                <label class="form-label">Division</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" 
+                                    pInputText [(ngModel)]="formData.division" 
+                                    [disabled]="formData.employed !== 'yes'" />
+                            </p-floatlabel>
+                            
+                        </div>
+
+                        <div class="col-span-2">
+                            <p-floatlabel>
+                            <label class="form-label">Service No</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" 
+                                    pInputText [(ngModel)]="formData.serviceno" 
+                                    [disabled]="formData.employed !== 'yes'" />
+                             </p-floatlabel>
+
+                        </div>
+
+                        <div>
+                            <p-floatlabel>
+                                <label class="form-label">Section/Unit</label>
+                            <input class="form-input border border-gray-300 w-full p-2 rounded-md" 
+                                    pInputText [(ngModel)]="formData.sectionunit" 
+                                    [disabled]="formData.employed !== 'yes'" />
+                            </p-floatlabel>
+                            
+                        </div>
+
+                        
+                        </div>
+                
+              </div>
+
+  
+            <!-- Upload Documents -->
+            <div *ngIf="step === 3">
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Upload Documents</h4>
+                <label class="form-label">NIC</label>
+                <input type="file" (change)="onFileSelect($event, 'nicFile')" class="file-input border border-gray-300" />
+                
+                <label class="form-label">Passport</label>
+                <input type="file" (change)="onFileSelect($event, 'passportFile')" class="file-input border border-gray-300" />
+                
+                <label class="form-label">Photo (Passport Size)*</label>
+                <input type="file" (change)="onFileSelect($event, 'photoFile')" class="file-input border border-gray-300" />
+            </div>
+  
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center mt-6">
+                <!-- Back Button (Only Shows on Step > 0) -->
+                <button class="btn-secondary border border-gray-400 bg-gray-100 text-gray-800" 
+                        (click)="previousStep()" 
+                        *ngIf="step > 0">Back</button>
+            
+                <!-- Spacer Div (Keeps Next Button on the Right) -->
+                <div class="flex-1"></div>
+            
+                <!-- Next Button (Only Shows on Steps < 3) -->
+                <button class="btn-secondary border border-gray-400 bg-gray-100 text-gray-800" 
+                        (click)="nextStep()" 
+                        *ngIf="step < 3">Next</button>
+            
+                <!-- Submit Button (Only Shows on Step 3) -->
+            
+                <p-toast />
+                <p-confirmdialog #cd>
+                    <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+                        <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
+                            <div
+                                class="rounded-full bg-primary text-primary-contrast inline-flex justify-center items-center h-24 w-24 -mt-20"
+                            >
+                                <i class="pi pi-question !text-5xl"></i>
+                            </div>
+                            <span class="font-bold text-2xl block mb-2 mt-6">{{ message.header }}</span>
+                            <p class="mb-0">{{ message.message }}</p>
+                            <div class="flex items-center gap-2 mt-6">
+                                <p-button label="Submit" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-confirmdialog>
+                <button class="btn-secondary border border-gray-400 bg-gray-100 text-gray-800" (click)="confirm()"  *ngIf="step === 3" >Submit</button>
+            </div>
+            
+        </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+
